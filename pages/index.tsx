@@ -6,6 +6,7 @@ import InputForm from '../components/InputForm';
 import 'react-svg-radar-chart/build/css/index.css';
 import React, { useState } from 'react';
 import { Row } from 'react-bootstrap';
+import { stringToColour } from '../utils';
 
 const data = [
   {
@@ -43,22 +44,34 @@ const captions = {
 };
 
 export interface RadarValues {
-  process?: Number;
-  people?: Number;
-  technology?: Number;
-  other?: Number;
+  data: {
+    process?: Number,
+    people?: Number,
+    technology?: Number,
+    other?: Number,
+  },
+  meta: {
+    userName: String,
+    color: String,
+  }
 }
+
 
 
 export default function Home() {
 
   const [radarValues, setRadarValues] = useState({
-    process: 0,
-    people: 0,
-    technology: 0,
-    other: 0,
+    data: {
+      process: 0,
+      people: 0,
+      technology: 0,
+      other: 0,
+    },
+    meta: {
+      color: "",
+      userName: "",
+    }
   });
-
 
   return (
     <div className={styles.container}>
@@ -80,17 +93,11 @@ export default function Home() {
           <InputForm
             categories={captions}
             setRadarValues={setRadarValues}
+            radarValues={radarValues}
           />
           <RadarChart
             captions={captions}
-            data={
-              [{
-                data: radarValues,
-                meta: {
-                  color: "green",
-                }
-              }]
-            }
+            data={[radarValues]}
             size={450}
           />
         </Row>
